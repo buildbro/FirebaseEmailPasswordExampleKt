@@ -16,6 +16,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -54,6 +58,14 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavController, auth: FirebaseAuth) {
+
+    var emailText by remember {
+        mutableStateOf("")
+    }
+    var passordText by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,8 +76,10 @@ fun LoginScreen(navController: NavController, auth: FirebaseAuth) {
         Box(modifier = Modifier.height(8.dp))
         Text(text = "Email:")
         OutlinedTextField(
-            value = "",
+            value = emailText.toString(),
             onValueChange = {
+            text->
+                emailText = text
 
             },
             modifier = Modifier.fillMaxWidth()
@@ -73,16 +87,17 @@ fun LoginScreen(navController: NavController, auth: FirebaseAuth) {
         Box(modifier = Modifier.height(8.dp))
         Text(text = "Password")
         OutlinedTextField(
-            value = "",
+            value = passordText.toString(),
             onValueChange = {
-
+            text->
+                passordText = text
             },
             modifier = Modifier.fillMaxWidth()
         )
         Box(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                auth.signInWithEmailAndPassword("info@example.com", "123456")
+                auth.signInWithEmailAndPassword(emailText, passordText)
                     .addOnCompleteListener {
                         // TODO Show toast that login was successful
                         navController.navigate("home_screen")
@@ -106,6 +121,13 @@ fun LoginScreen(navController: NavController, auth: FirebaseAuth) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(navController: NavController, auth: FirebaseAuth) {
+
+    var emailText by remember {
+        mutableStateOf("")
+    }
+    var passordText by remember {
+        mutableStateOf("")
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,18 +138,20 @@ fun SignupScreen(navController: NavController, auth: FirebaseAuth) {
         Box(modifier = Modifier.height(8.dp))
         Text(text = "Email:")
         OutlinedTextField(
-            value = "",
+            value = emailText.toString(),
             onValueChange = {
-
+            text->
+                emailText = text
             },
             modifier = Modifier.fillMaxWidth()
         )
         Box(modifier = Modifier.height(8.dp))
         Text(text = "Password")
         OutlinedTextField(
-            value = "",
+            value = passordText.toString(),
             onValueChange = {
-
+            text->
+                passordText = text
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -143,7 +167,7 @@ fun SignupScreen(navController: NavController, auth: FirebaseAuth) {
         Box(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                auth.createUserWithEmailAndPassword("info@example.com", "123456")
+                auth.createUserWithEmailAndPassword(emailText, passordText)
                     .addOnCompleteListener {
                         //TODO add toast to show registration was successful
 
