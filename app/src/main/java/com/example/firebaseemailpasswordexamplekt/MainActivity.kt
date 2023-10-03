@@ -99,8 +99,11 @@ fun LoginScreen(navController: NavController, auth: FirebaseAuth) {
             onClick = {
                 auth.signInWithEmailAndPassword(emailText, passordText)
                     .addOnCompleteListener {
-                        // TODO Show toast that login was successful
-                        navController.navigate("home_screen")
+                            task->
+                        if (task.isSuccessful) {
+                            // TODO Show toast that login was successful
+                            navController.navigate("home_screen")
+                        }
                     }
             },
             modifier = Modifier.fillMaxWidth()
@@ -169,9 +172,15 @@ fun SignupScreen(navController: NavController, auth: FirebaseAuth) {
             onClick = {
                 auth.createUserWithEmailAndPassword(emailText, passordText)
                     .addOnCompleteListener {
-                        //TODO add toast to show registration was successful
+                        task->
+                            if (task.isSuccessful) {
+                                //TODO add toast to show registration was successful
+                                navController.navigate("login_screen")
+                            }
 
-                        navController.navigate("login_screen")
+
+
+
                     }
             },
             modifier = Modifier.fillMaxWidth()
